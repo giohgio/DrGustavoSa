@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pagamento Seguro - T.G.15</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f8;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.modal {
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e1e5eb;
+}
+
+.topo {
+    background: #0f172a;
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+    border-bottom: 4px solid #3b82f6;
+}
+
+.topo img {
+    width: 90px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.topo h2 {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.preco {
+    font-size: 30px;
+    font-weight: 700;
+    color: #10b981;
+    margin-top: 6px;
+}
+
+.form {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.secao-titulo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: -5px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 5px;
+}
+
+.input_container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input_label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.input_field {
+    height: 48px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-size: 15px;
+    color: #1e293b;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.input_field:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.cartao-subgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* --- ESTILIZAÇÃO DO CONTAINER DE UPLOAD (UIVERSE) AJUSTADO --- */
+.upload-container {
+  height: 180px;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 5px;
+  background-color: rgba(37, 99, 219, 0.03);
+  border: 1px solid #e2e8f0;
+}
+
+.upload-header {
+  flex: 1;
+  width: 100%;
+  border: 2px dashed #2563eb;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.upload-header svg {
+  height: 50px;
+}
+
+.upload-header p {
+  text-align: center;
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.upload-footer {
+  background-color: rgba(37, 99, 219, 0.08);
+  width: 100%;
+  height: 40px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #334155;
+  border: none;
+  font-size: 13px;
+}
+
+.upload-footer svg {
+  height: 100%;
+  fill: #2563eb;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.upload-footer p {
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+#file {
+  display: none;
+}
+
+/* --- BOTÃO ALTERNATIVO (NÃO TENHO RECEITA) --- */
+.no-prescription-btn {
+    background: none;
+    border: 1px dashed #94a3b8;
+    color: #64748b;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.no-prescription-btn:hover {
+    background: #f8fafc;
+    border-color: #64748b;
+    color: #334155;
+}
+
+/* Alerta Informativo Dinâmico oculto por padrão */
+.alert-info {
+    display: none;
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    padding: 12px;
+    font-size: 13px;
+    color: #1e3a8a;
+    border-radius: 4px;
+    line-height: 1.4;
+}
+
+.purchase-btn {
+    height: 55px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    background: #2563eb;
+    color: white;
+    transition: background 0.2s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 219, 0.2);
+    margin-top: 5px;
+}
+
+.purchase-btn:hover {
+    background: #1d4ed8;
+}
+
+.security-footer {
+    text-align: center;
+    font-size: 12px;
+    color: #94a3b8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+@media (max-width: 380px) {
+    .form { padding: 15px; }
+    .topo { padding: 20px 15px; }
+    .cartao-subgrid { grid-template-columns: 1fr; gap: 15px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="modal">
+
+    <div class="topo">
+        <img src="img/ampola_15ml.png" alt="T.G.15">
+        <h2>T.G.15 - Tirzepatida</h2>
+        <div class="preco">R$ 350,00</div>
+    </div>
+
+    <form class="form" method="POST" action="/create-checkout-session" enctype="multipart/form-data">
+        
+        <div class="secao-titulo">1. Dados Pessoais</div>
+
+        <div class="input_container">
+            <label class="input_label">Nome Completo</label>
+            <input class="input_field" type="text" name="nome" placeholder="Como no documento" required>
+        </div>
+
+        <div class="input_container">
+            <label class="input_label">E-mail</label>
+            <input class="input_field" type="email" name="email" placeholder="seu@email.com" required>
+        </div>
+
+        <div class="input_container">
+            <label class="input_label">CPF</label>
+            <input class="input_field" type="text" name="cpf" placeholder="000.000.000-00" required>
+        </div>
+
+
+        <div class="secao-titulo">2. Receita Médica</div>
+        
+        <div class="upload-container"> 
+            <label for="file" class="upload-header"> 
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> 
+                <p>Clique para enviar a sua Receita</p>
+            </label> 
+            <label for="file" class="upload-footer"> 
+                <svg fill="none" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M15.331 6H8.5v20h15V14.154h-8.169z" fill="#2563eb"></path><path d="M18.153 6h-.009v5.342H23.5v-.002z" fill="#1d4ed8"></path></svg> 
+                <p id="file-name-text">Nenhum arquivo selecionado</p> 
+            </label> 
+            <input id="file" type="file" name="receita_medica" onchange="updateFileName(this)"> 
+        </div>
+
+        <button type="button" class="no-prescription-btn" onclick="toggleTelemedicinaInfo()">
+            ⚠️ Não tenho receita médica no momento
+        </button>
+
+        <div id="telemedicina-alert" class="alert-info">
+            <strong>Sem problemas!</strong> Você poderá realizar a sua consulta via telemedicina com nosso médico parceiro logo após a confirmação do pagamento para emissão da sua receita de forma rápida.
+        </div>
+
+
+        <div class="secao-titulo">3. Dados do Cartão de Crédito</div>
+
+        <div class="input_container">
+            <label class="input_label">Número do Cartão</label>
+            <input class="input_field" type="text" name="numero_cartao" placeholder="0000 0000 0000 0000" maxlength="19" required>
+        </div>
+
+        <div class="input_container">
+            <label class="input_label">Nome Impresso no Cartão</label>
+            <input class="input_field" type="text" name="nome_cartao" placeholder="MARIA S SILVA" required>
+        </div>
+
+        <div class="cartao-subgrid">
+            <div class="input_container">
+                <label class="input_label">Validade</label>
+                <input class="input_field" type="text" name="validade" placeholder="MM/AA" maxlength="5" required>
+            </div>
+            <div class="input_container">
+                <label class="input_label">CVC / CVV</label>
+                <input class="input_field" type="text" name="cvv" placeholder="123" maxlength="4" required>
+            </div>
+        </div>
+
+        <button class="purchase-btn" type="submit">
+            💥 FINALIZAR COMPRA SEGURA
+        </button>
+
+        <div class="security-footer">
+            🔒 Pagamento processado com criptografia SSL de 256 bits.
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+// Mostra o nome do arquivo selecionado no componente de upload
+function updateFileName(input) {
+    const textEl = document.getElementById('file-name-text');
+    if (input.files && input.files.length > 0) {
+        textEl.innerText = input.files[0].name;
+        textEl.style.color = "#10b981"; // Muda para verde ao selecionar
+    } else {
+        textEl.innerText = "Nenhum arquivo selecionado";
+        textEl.style.color = "#334155";
+    }
+}
+
+// Alterna a exibição do aviso de telemedicina
+function toggleTelemedicinaInfo() {
+    const alertBox = document.getElementById('telemedicina-alert');
+    if (alertBox.style.display === 'block') {
+        alertBox.style.display = 'none';
+    } else {
+        alertBox.style.display = 'block';
+        alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,472 @@
+   /* Configurações Globais */
+    * {                                                                           box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+    body {
+      background-color: #0d0d13;
+      color: #ffffff;
+      overflow-x: hidden;                                                         display: flex;
+      flex-direction: column;                                               
+      min-height: 100vh;
+    }
+    /* Header Fixo */                                                       
+    .header {
+      position: fixed;                                                      
+      top: 0;                                                                     left: 0;                                                              
+      width: 100%;
+      height: 70px;
+      background-color: rgba(13, 13, 19, 0.95);
+      border-bottom: 1px solid #222;
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Espaça a logo do botão sobre */
+      padding: 0 20px;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #e21c34;
+    }
+
+    .brand h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* Botão do Header para abrir o Perfil */
+    .btn-about {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-about:hover {
+      background-color: #fff;
+      color: #0d0d13;
+      border-color: #fff;
+    }
+
+    /* Janela Modal do Card (Fundo escurecido) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    /* Classe ativada por JS para exibir o modal */
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Card de Informações da Jennifer */
+    .info-card {
+      background: #14141c;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.8);
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .info-card {
+      transform: translateY(0);
+    }
+
+    .card-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #e21c34;
+      margin: 0 auto 15px auto;
+    }
+
+    .card-name {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .card-username {
+      color: #e21c34;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .info-list {
+      text-align: left;
+      list-style: none;
+      margin-bottom: 25px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 15px;
+      border-radius: 12px;
+    }
+
+    .info-list li {
+      padding: 8px 0;
+      font-size: 0.95rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .info-list li:last-child {
+      border-bottom: none;
+    }
+
+    .info-list span {
+      color: #bbb;
+    }
+
+    .btn-close-card {
+      background: #222230;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+
+    .btn-close-card:hover {
+      background: #333344;
+    }
+
+    /* Conteúdo Principal (Ocupa o resto da página) */
+    .main-content {
+      margin-top: 70px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Área Exclusiva do Carrossel de Fundo */
+    .carrossel-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .carrossel-track {
+      display: flex;
+      width: 400%;
+      height: 100%;
+      animation: rolarCarrossel 25s linear infinite;
+    }
+
+    .carrossel-item {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .carrossel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carrossel-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(13,13,19,0.4) 0%, rgba(13,13,19,0.85) 100%);
+    }
+
+    @keyframes rolarCarrossel {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Camada de Conversão */
+    .cta-layer {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 40px 20px 60px 20px;
+      text-align: center;
+    }
+
+    .cta-box {
+      max-width: 500px;
+      width: 100%;
+      background: rgba(20, 20, 28, 0.8);
+      padding: 30px 25px;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #e21c34;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .cta-title {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .btn-subscribe {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #e21c34 0%, #b01023 100%);
+      color: white;
+      border: none;
+      padding: 16px 20px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border-radius: 30px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: transform 0.2s, cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 5px 15px rgba(226, 28, 52, 0.4);
+      text-decoration: none;
+    }
+
+    .btn-subscribe:hover {
+      transform: scale(1.03);
+    }
+
+    .btn-subscribe:active {
+      transform: scale(0.98);
+    }
+
+    .price-subtext {
+      margin-top: 15px;
+      font-size: 1rem;
+      color: #bbb;
+    }
+
+    .alternative-offer {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: #e21c34;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px dashed #e21c34;
+      padding-bottom: 2px;
+    }
+
+    .alternative-offer:hover {
+      color: #ff334b;
+      border-color: #ff334b;
+    }
+
+    /* Modais (Fundo escurecido genérico para ambas as janelas) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    /* Ativa a exibição do modal quando a classe é inserida por JS */
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Card do Formulário */
+    .form-card {
+      background: #14141c;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.8);
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.active .form-card {
+      transform: translateY(0);
+    }
+
+    .form-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .form-subtitle {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    /* Blocos de Entrada de Dados (Inputs) */
+    .input-group {
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: #bbb;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .input-group input {
+      width: 100%;
+      background: #1e1e2a;
+      border: 1px solid #333;
+      padding: 12px;
+      border-radius: 8px;
+      color: white;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #e21c34;
+    }
+
+    /* Termos de Maioridade (Checkbox) */
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      text-align: left;
+      margin: 20px 0;
+    }
+
+    .checkbox-group input {
+      margin-top: 3px;
+      accent-color: #e21c34;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      font-size: 0.85rem;
+      color: #bbb;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    /* Botões do Formulário */
+    .btn-submit-form {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #e21c34 0%, #b01023 100%);
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 25px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(226, 28, 52, 0.3);
+      margin-bottom: 12px;
+      transition: transform 0.2s;
+    }
+
+    .btn-submit-form:hover {
+      transform: scale(1.02);
+    }
+
+    .btn-cancel-form {
+      background: transparent;
+      color: #888;
+      border: none;
+      width: 100%;
+      padding: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .btn-cancel-form:hover {
+      color: #fff;
+    }
+
+
+
+    @media (min-width: 768px) {
+      .cta-title { font-size: 2.2rem; }
+      .cta-box { padding: 40px; }
+    }
+    

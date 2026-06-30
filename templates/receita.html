@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Receita Médica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            color: #333;
+        }
+
+        @font-face {
+          font-family: 'Assinatura'; /* Nome que você vai usar no CSS */
+          src: url('./static/Doctor.ttf') format('ttf'),
+               url('./static/Doctor.ttf') format('truetype');
+          font-weight: bold;
+          font-style: normal;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #0056b3;
+            margin: 0;
+            font-size: 24px;
+        }
+        .header p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .patient-info {
+            margin-bottom: 30px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .prescription-title {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #e67e22;
+        }
+        .medication {
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+        .medication-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .medication-instructions {
+            font-size: 14px;
+            color: #444;
+        }
+        .footer {
+            margin-top: 60px;
+            text-align: right;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        .footer .date {
+            text-align: left;
+            float: left;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Clínica Médica Bem Estar</h1>
+        <p>Dr(a). {{ medico }} - CRM: {{ crm }}</p>
+        <p>Telefone: (27) 99803-1796 | Endereço: Rua Principal, 123</p>
+    </div>
+
+    <div class="patient-info">
+        <p><strong>Paciente:</strong> {{ paciente }}</p>
+        <p><strong>Data de Nascimento:</strong> {{ idade }} anos</p>
+        <p><strong>Data:</strong> {{ data }}</p>
+    </div>
+
+    <div class="prescription-title">Prescrição Médica</div>
+
+    {% for item in medicamentos %}
+    <div class="medication">
+        <div class="medication-name">{{ item.nome }}</div>
+        <div class="medication-instructions">{{ item.instrucoes }}</div>
+    </div>
+    {% endfor %}
+
+    <div class="footer">
+        <div class="date">Franca - SP, {{ data }}</div>
+        <p style="font-family: Assinatura;">{{ medico }} </p>
+        <p>___________________________________________</p>
+        <p>Assinatura e Carimbo do Médico</p>
+    </div>
+</body>
+</html>

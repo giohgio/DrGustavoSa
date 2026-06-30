@@ -3,3 +3,7 @@ Flask-Mail
 python-dotenv
 gunicorn
 Werkzeug
+requests
+qrcode
+reportlab
+Pillow

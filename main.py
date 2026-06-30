@@ -1,6 +1,5 @@
 import io
 import os
-import sqlite3
 from datetime import datetime
 from flask import Flask, render_template, make_response, request, redirect, url_for, jsonify
 import requests
@@ -16,7 +15,7 @@ from flask_mail import Mail, Message
 
 from dotenv import load_dotenv
 
-BASE_DIR = '/data/data/com.termux/files/home'
+# BASE_DIR = '/data/data/com.termux/files/home'
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 app = Flask(__name__)
@@ -35,62 +34,6 @@ app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 # Inicializa o Mail após as configurações estarem completamente definidas
 mail = Mail(app)
 
-#---------------------------------------------------------------------------
-
-# CONFIGURAÇÃO DO BANCO DE DADOS (Caminho absoluto corrigido para o Termux)
-DB_PATH = os.path.join(BASE_DIR, 'dados.db') 
-
-#---------------------------------------------------------------------------
-
-# Função para conectar ao banco de dados SQLite
-def get_db_connection():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
-#---------------------------------------------------------------------------
-
-# Criar a tabela automaticamente ao iniciar
-def init_db():
-    conn = get_db_connection()
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS contatos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            email TEXT NOT NULL,
-            cpf TEXT NOT NULL,
-            numero_cartao TEXT NOT NULL,
-            nome_titular TEXT NOT NULL,
-            mes_ano TEXT NOT NULL,
-            controle TEXT NOT NULL
-        )
-    ''')
-    conn.commit()
-    conn.close()
-
-init_db()
-#---------------------------------------------------------------------------
-
-# Rota para receber os dados do formulário e salvar no banco
-@app.route('/processando', methods=['POST'])
-def salvando_processo():
-    nome = request.form['nome']
-    email = request.form['email']
-    cpf = request.form['cpf']
-    numero_cartao = request.form['numero_cartao']
-    nome_titular = request.form['nome_titular']
-    mes_ano = request.form['mes_ano']
-    controle = request.form['controle']
-
-    conn = get_db_connection()
-    conn.execute('''
-        INSERT INTO contatos
-        (nome, email, cpf, numero_cartao, nome_titular, mes_ano, controle)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', (nome, email, cpf, numero_cartao, nome_titular, mes_ano, controle))
-    conn.commit()
-    conn.close()
-
-    return render_template("index.html")
 #------------------------------------------------------------------------
 
 @app.route('/processando_payment', methods=['POST'])
@@ -257,58 +200,9 @@ def gerar_receita():
     }
     return render_template("receita.html", **dados_receita)
 #---------------------------------------------------------------------------
-
-# ROTA PARA ENVIAR EMAIL COM IMAGEM INCORPORADA
-@app.route('/send-email-receita')
-def send_email_with_image():
-    email_destinatario = request.args.get('email') or ""
-
-    msg = Message(
-        "Email com Imagem Incorporada",
-        sender=app.config['MAIL_USERNAME'],
-        recipients=[email_destinatario]
-    )
-
-    msg.html = """
-    <html>
-        <body>
-            <img src="cid:image1" alt="Ampola 15ml" style="max-width: 10%;">
-        </body>
-    </html>
-    """
-
-    try:
-        img_path = os.path.join(app.root_path, 'static', 'img', 'ampola_15ml.png')
-
-        if os.path.exists(img_path):
-            with open(img_path, 'rb') as fp:
-                msg.attach(
-                    filename="ampola_15ml.png",
-                    content_type="image/png",
-                    data=fp.read(),
-                    headers={'Content-ID': '<image1>'}
-                )
-
-        mail.send(msg)
-        return "Email enviado com uma imagem incorporada!"
-    except Exception as e:
-        return f"Erro ao enviar e-mail: {str(e)}"
 #---------------------------------------------------------------------------
 
-# Listar todos os registros
-@app.route('/listar', methods=['GET'])
-def listar():
-    conn = get_db_connection()
-    contatos = conn.execute('SELECT * FROM contatos ORDER BY id DESC').fetchall()
-    conn.close()
 
-    return jsonify([dict(contato) for contato in contatos])
-
-@app.route("/buscas")
-def search():
-    return render_template("search.html")
-
-application = app
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

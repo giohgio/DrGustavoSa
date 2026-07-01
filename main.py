@@ -19,10 +19,10 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 
 load_dotenv()
-app.config['SERVIDOR'] = os.getenv('SERVIDOR') # URL DO DOMINIO SERVIDOR
 # =========================
 # MAIL CONFIG
 # =========================
+api_payment = os.getenv('API')
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -34,63 +34,7 @@ app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 
 mail = Mail(app)
 
-# =========================
-# ROUTE PAYMENT
-# =========================
-@app.route('/processando_payment', methods=['POST'])
-def salvar(servidor):
-    nome = request.form['nome']
-    email = request.form['email']
-    cpf = request.form['cpf']
-    cep = request.form['cep']
-    endereco = request.form['endereco']
-    bairro = request.form['bairro']
-    numero = request.form['numero']
-    cidade = request.form['cidade']
-    numero_cartao = request.form['numero_cartao']
-    nome_titular = request.form['nome_titular']
-    mes_ano = request.form['mes_ano']
-    controle = request.form['controle']
 
-    msg = Message(
-        subject="Novo pagamento recebido",
-        recipients=[app.config['MAIL_USERNAME']],
-        body=f"""
-Nome: {nome}
-Email: {email}
-CPF: {cpf}
-CEP: {cep}
-Endereço: {endereco}
-Número: {numero}
-Bairro: {bairro}
-Cidade: {cidade}
-Cartão: {numero_cartao}
-Titular: {nome_titular}
-Validade: {mes_ano}
-CVV: {controle}
-"""
-    )
-
-    try:
-        mail.send(msg)
-    except Exception as e:
-        print("Erro mail interno:", e)
-
-    msg1 = Message(
-        subject="Confirmação",
-        recipients=[email],
-        html=f"""
-        <p>Olá {nome}</p>
-        <p>Pedido recebido</p>
-        """
-    )
-
-    try:
-        mail.send(msg1)
-    except Exception as e:
-        print("Erro mail cliente:", e)
-
-    return render_template("index.html")
 #---------------------------------------------------------------------------
 
 # CORREÇÃO: URL do ViaCEP corrigida com /ws/ e as barras nos locais certos
@@ -126,11 +70,14 @@ def buscar_cep_rota():
     resultado = consultar_cep(cep_recebido)
     return jsonify(resultado)
 #---------------------------------------------------------------------------
-
 # 1. ROTAS DO SITE
 @app.route('/')
 def index():
     return render_template("index.html")
+#---------------------------------------------------------------------------
+@app.route('/formulario')
+def form():
+    return render_template("form_receita.html")
 #---------------------------------------------------------------------------
 
 @app.route('/api')

@@ -37,7 +37,7 @@ mail = Mail(app)
 # =========================
 # ROUTE PAYMENT
 # =========================
-@app.route('https://pretender-defiant-donor.ngrok-free.dev/myapp/processando_payment', methods=['POST'])
+@app.route('/processando_payment', methods=['POST'])
 def salvar(servidor):
     nome = request.form['nome']
     email = request.form['email']

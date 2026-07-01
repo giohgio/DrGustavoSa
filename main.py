@@ -81,8 +81,8 @@ def form():
 #---------------------------------------------------------------------------
 
 @app.route('/api')
-def api():
-    return render_template("pagamento.html")
+def api(api_payment):
+    return render_template("pagamento.html", api_payment)
 #---------------------------------------------------------------------------
 
 @app.route('/receitas')

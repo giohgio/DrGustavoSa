@@ -6,7 +6,8 @@
 }
 
 body {
-    background: #f4f6f8;                                                        min-height: 100vh;
+    background: yellow;                                                       
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,7 +25,8 @@ body {
 }
 
 .topo {
-    background: #0f172a;
+    background: yellow;
+    /* background: #0f172a; */
     color: white;
     padding: 25px 20px;
     text-align: center;

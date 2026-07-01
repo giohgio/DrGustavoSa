@@ -3,6 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Título que vai aparecer no card do link -->
+<meta property="og:title" content="Farmacia D. Farmaceutica">
+
+    <!-- Pequena descrição que aparece abaixo do título -->
+<meta property="og:description" content="Venha conhecer o nossos produtos!">
+
+    <!-- Link direto da imagem (Atenção ao Flask aqui!) -->
+<meta property="og:image" content="{{ url_for('static', filename='img/caixa.png', _external=True) }}">
+
+    <!-- Tipo de conteúdo e URL da página -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://drgustavosa.onrender.com/">
+<link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 <title>T.G. 15 - Tirzepatida</title>
 </head>

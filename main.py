@@ -22,7 +22,7 @@ load_dotenv()
 # =========================
 # MAIL CONFIG
 # =========================
-api_payment = os.getenv('API')
+
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -80,8 +80,10 @@ def form():
     return render_template("form_receita.html")
 #---------------------------------------------------------------------------
 
-@app.route('/api')
-def api(api_payment):
+api_payment = os.getenv("API")
+
+@app.route("/api")
+def api():
     return render_template("pagamento.html", api_payment=api_payment)
 #---------------------------------------------------------------------------
 

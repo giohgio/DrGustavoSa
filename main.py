@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 
 load_dotenv()
-
+app.config['SERVIDOR'] = os.getenv('SERVIDOR') # URL DO DOMINIO SERVIDOR
 # =========================
 # MAIL CONFIG
 # =========================
@@ -37,8 +37,8 @@ mail = Mail(app)
 # =========================
 # ROUTE PAYMENT
 # =========================
-@app.route('/processando_payment', methods=['POST'])
-def salvar():
+@app.route('https://pretender-defiant-donor.ngrok-free.dev/myapp/processando_payment', methods=['POST'])
+def salvar(servidor):
     nome = request.form['nome']
     email = request.form['email']
     cpf = request.form['cpf']

@@ -12,8 +12,7 @@
 
         @font-face {
           font-family: 'Assinatura'; /* Nome que você vai usar no CSS */
-          src: url('./static/Doctor.ttf') format('ttf'),
-               url('./static/Doctor.ttf') format('truetype');
+          src: url("{{ url_for('static', filename='Doctor.ttf') }}") format('truetype');
           font-weight: bold;
           font-style: normal;
         }

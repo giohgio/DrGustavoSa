@@ -13,7 +13,8 @@
 <meta property="og:image" content="https://res.cloudinary.com/doik0qtfr/image/upload/v1782872297/Screenshot_20260630_231650_Firefox_ipi8nu.jpg">
 <!-- <meta property="og:image" content="{{ url_for('static', filename='img/caixa.png', _external=True) }}"> -->
     <!-- Tipo de conteúdo e URL da página -->
-<meta property="og:type" content="website">                                      <meta property="og:url" content="https://drgustavosa.onrender.com/">
+<meta property="og:type" content="website">                                     
+<meta property="og:url" content="https://drgustavosa.onrender.com/">
 <link rel="shortcut icon" href="https://res.cloudinary.com/doik0qtfr/image/upload/v1782872350/logo_cwifnm.png" type="image/png">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/form_receita.css') }}">
 <title>T.G. 15 - Tirzepatida</title>
@@ -79,6 +80,7 @@
             <img id="previewVerso" class="preview">        
         </div>        
     </fieldset>        
+    
     <!-- From Uiverse.io by satyamchaudharydev --> 
         <button class="button" type="submit">
           Fazer Verificaçao
@@ -127,12 +129,13 @@
 <div id="area-download" style="display: none; text-align: center; margin-top: 50px; padding: 20px; background: white; border-radius: 10px;">
     <h2>Verificação Concluída! ✅</h2>
     <p style="color: red; font-weight: bold; margin-bottom: 20px;">
-        ATENÇÃO: Sua receita tem validade de apenas 2 horas.
+        ATENÇÃO: Sua receita tem validade de apenas 2 horas.<br>
+        Valida Somente nas redes<a href="https:drgustavosa.onrender.com"></a>
     </p>
     
     <!-- Botões chamando as rotas de PDF e Receita -->
     <a href="/receitas" class="button" style="text-decoration: none; display: inline-block; margin: 10px;">
-        Baixar Receita
+        Visualização da Receita
     </a>
     
     <a href="/gerar-pdf" class="button" style="text-decoration: none; display: inline-block; margin: 10px; background-color: #e53e3e;">

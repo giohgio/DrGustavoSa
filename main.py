@@ -51,7 +51,6 @@ def form():
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
-api_autenticacao = os.getenv("AUTENTICACAO")
 api_payment = os.getenv("API")
 api_autenticacao = os.getenv("API_AUTENTICACAO")
 api_verificacao = os.getenv("API_VERIFICACAO_CODIGO")

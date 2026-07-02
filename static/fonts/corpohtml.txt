@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+body {
+  font-family: Arial, sans-serif;
+}
+#conteudo {
+                        margin: 0 0 0 0; 
+                        width: 90%;
+                }
+#caixa_de_feedback {
+                        width: 90%;
+                        margin: 0 0 0 0;
+                        padding: 20px;
+                              border: 1px solid #ccc;
+                              font-style: italic;
+                }
+ </style>
+</head>
+
+<body>
+  <div>
+    <img src="https://i.imgur.com/XhiKLNJ.png" style="height: 115px;">
+    <h4 style="color: #000000;">Olá, {{nome}}! 🩺</h4>
+  </div>
+    <div id='conteudo'>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p id='caixa_de_feedback'>{{feedback_atual}}</p>
+    <p>Qualquer dúvida, consultar: https://</p>
+  </div>
+  <div style="padding:5px 0px">
+    <div style="height: 100px;width:600px">
+      <p>Atenciosamente,</p>
+      <img src="https://i.imgur.com/QNTJr3K.gif" alt="Nome" align="left" style="margin-top: -16px; height: 100px;">
+      <div style="margin:8px">
+        <h5 style="; margin: 40px 0 0 0">Pessoa Responsável</h5>
+        <h5 style="; margin: 0">Nome da Empresa</h5>
+        <h5 style="; margin: 0">Fone: (XX) XXXX XXXX | Site: www.seusite.com.br</h5>
+      </div>
+    </div>
+  </div>
+  <div align="left" style="margin-top: 20px">
+    <img src="https://i.imgur.com/b0PPDsl.png" style="height: 115px;">
+  </div>
+</body>
+
+</html>

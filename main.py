@@ -62,7 +62,7 @@ UPLOAD_PRESED = os.getenv("UPLOAD_PRESED")
 
 @app.route("/api")
 def api():
-    return render_template("pagamento.html", api_payment=api_payment, api_autenticacao=api_autenticacao)
+    return render_template("pagamento.html", api_payment=api_payment)
 #---------------------------------------------------------------------------
 @app.route('/receitas')
 def gerar_receita():

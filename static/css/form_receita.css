@@ -1,0 +1,249 @@
+    body{
+        font-family:Arial,Helvetica,sans-serif;
+        padding:20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #ffff;
+        color: #000;                                                                     font-wight: bold;
+    }
+
+    #form-cadastro {
+        width: 100%;
+        max-width:700px;
+        margin:auto;                                                                     border-radius: 5px;
+    }
+
+    fieldset{
+        margin-bottom:20px;                                                              padding:15px;
+    }
+
+    label{
+        display:block;                                                                   margin-top:10px;
+    }                                                                            
+    input, select, button{
+        width:100%;
+        padding:10px;
+        margin-top:5px;                                                                  box-sizing:border-box;
+    }
+
+    input {                                                                              border-radius: 3px;
+    }
+
+    .documento{
+        margin-top:20px;
+    }
+                                                                                     .container-img{
+        border:2px dashed #bbb;
+        border-radius:8px;
+        padding:15px;
+        margin-top:15px;
+        text-align:center;
+    }
+
+    .preview{
+        display:none;                                                                    width:100%;
+        max-width:250px;
+        margin:15px auto 0;
+        border-radius:8px;
+        border:1px solid #ccc;
+    }
+                                                                                     .btn-camera{
+        margin-top:10px;
+        cursor:pointer;
+    }
+
+    input[type=file]{
+        display:none;
+    }
+
+    /* --- ESTILOS DO CARD VERIFY (UIVERSE) --- */
+    .form-verify {
+        display: none; /* Começa escondido */
+        width: 290px;
+        height: 380px;
+        flex-direction: column;
+        border-radius: 15px;
+        background-color: white;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        transition: .4s ease-in-out;
+    }
+
+    .form-verify:hover {
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        scale: 0.99;
+    }
+
+    .heading {
+        position: relative;
+        text-align: center;
+        color: black;
+        top: 3em;
+        font-weight: bold;
+    }
+
+    .check {
+        position: relative;
+        align-self: center;
+        top: 4em;
+    }
+
+    .box {
+        display: flex;
+        justify-content: center;
+    }
+
+    .input-verify {
+        position: relative;
+        width: 2.5em;
+        height: 2.5em;
+        margin: 0.5em;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        background-color: rgb(235, 235, 235);
+        box-shadow: inset 3px 3px 6px #d1d1d1, inset -3px -3px 6px #ffffff;
+        top: 6.5em;
+        text-align: center;
+        transition: .4s ease-in-out;
+    }
+
+    .input-verify:hover, .input-verify:focus {
+        box-shadow: inset 0px 0px 0px #d1d1d1, inset 0px 0px 0px #ffffff;
+        background-color: lightgrey;
+    }
+
+    .btn1 {
+        position: relative;
+        top: 8.5em;
+        left: 2.4em;
+        width: 17em;
+        height: 3em;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        transition: .4s ease-in-out;
+        box-shadow: 1px 1px 3px #b5b5b5, -1px -1px 3px #ffffff;
+        cursor: pointer;
+    }
+
+    .btn1:active {
+        box-shadow: inset 3px 3px 6px #b5b5b5, inset -3px -3px 6px #ffffff;
+    }
+
+    .btn2 {
+        position: relative;
+        top: 9.5em;
+        left: 2.4em;
+        width: 17em;
+        height: 3em;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        transition: .4s ease-in-out;
+        box-shadow: 1px 1px 3px #b5b5b5, -1px -1px 3px #ffffff;
+        cursor: pointer;
+    }
+
+    .btn2:active {
+        box-shadow: inset 3px 3px 6px #b5b5b5, inset -3px -3px 6px #ffffff;
+    }
+
+    /* From Uiverse.io by mrhyddenn */
+    .btn-camera {
+      padding: 10px 20px;
+      border: none;
+      font-size: 17px;
+      color: #fff;
+      border-radius: 7px;
+      letter-spacing: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+      transition: 0.5s;
+      transition-property: box-shadow;
+    }
+
+    .btn-camera {
+      background: rgb(0,140,255);
+      box-shadow: 0 0 25px rgb(0,140,255);
+    }
+
+    .btn-camera:hover {
+      box-shadow: 0 0 5px rgb(0,140,255),
+                  0 0 25px rgb(0,140,255),
+                  0 0 50px rgb(0,140,255),
+                  0 0 100px rgb(0,140,255);
+    }
+
+    /* From Uiverse.io by satyamchaudharydev */
+    .button {
+      position: relative;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+      padding-block: 0.5rem;
+      padding-inline: 1.25rem;
+      background-color: rgb(0 107 179);
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffff;
+      gap: 10px;
+      font-weight: bold;
+      border: 3px solid #ffffff4d;
+      outline: none;
+      overflow: hidden;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      border-color: #fff9;
+    }
+
+    .button:hover .icon {
+      transform: translate(4px);
+    }
+
+    .button:hover::before {
+      animation: shine 1.5s ease-out infinite;
+    }
+
+    .button::before {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100%;
+      background-image: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 30%,
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0) 70%
+      );
+      top: 0;
+      left: -100px;
+      opacity: 0.6;
+    }
+
+    @keyframes shine {
+      0% {
+        left: -100px;
+      }
+
+      60% {
+        left: 100%;
+      }
+
+      to {
+        left: 100%;
+      }
+    }

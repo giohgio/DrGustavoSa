@@ -47,11 +47,11 @@ def index():
 #---------------------------------------------------------------------------
 @app.route('/formulario')
 def form():
-    return render_template("form_receita.html")
+    return render_template("form_receita.html", api_autenticacao=api_autenticacao, api_verificacao=api_verificacao)
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
-
+api_autenticacao = os.getenv("AUTENTICACAO")
 api_payment = os.getenv("API")
 api_autenticacao = os.getenv("API_AUTENTICACAO")
 api_verificacao = os.getenv("API_VERIFICACAO_CODIGO")
@@ -62,7 +62,7 @@ UPLOAD_PRESED = os.getenv("UPLOAD_PRESED")
 
 @app.route("/api")
 def api():
-    return render_template("pagamento.html", api_payment=api_payment)
+    return render_template("pagamento.html", api_payment=api_payment, api_autenticacao=api_autenticacao)
 #---------------------------------------------------------------------------
 @app.route('/receitas')
 def gerar_receita():

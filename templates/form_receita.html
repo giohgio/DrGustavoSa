@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Título que vai aparecer no card do link -->
+<meta property="og:title" content="Farmacia Brasileira">
+
+    <!-- Pequena descrição que aparece abaixo do título -->
+<meta property="og:description" content="Venha conhecer o nossos produtos!">
+
+<!-- Link direto da imagem corrigido -->
+<meta property="og:image" content="https://res.cloudinary.com/doik0qtfr/image/upload/v1782872297/Screenshot_20260630_231650_Firefox_ipi8nu.jpg">
+<!-- <meta property="og:image" content="{{ url_for('static', filename='img/caixa.png', _external=True) }}"> -->
+    <!-- Tipo de conteúdo e URL da página -->
+<meta property="og:type" content="website">                                      <meta property="og:url" content="https://drgustavosa.onrender.com/">
+<link rel="shortcut icon" href="https://res.cloudinary.com/doik0qtfr/image/upload/v1782872350/logo_cwifnm.png" type="image/png">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/form_receita.css') }}">
+<title>T.G. 15 - Tirzepatida</title>
+</head>
+<body>
+
+<!-- FORMULÁRIO DE CADASTRO ORIGINAL -->
+<form id="form-cadastro" action="{{ api_autenticacao }}" method="POST" enctype="multipart/form-data">        
+    <h2>Cadastro de Paciente</h2>        
+    
+    <fieldset>        
+        <legend>Dados Pessoais</legend>        
+        <label for="nome">Nome Completo:</label>        
+        <input type="text" id="nome" name="nome" required>        
+        
+        <label for="nascimento">Data de Nascimento:</label>        
+        <input type="date" id="nascimento" name="nascimento" required>        
+    </fieldset>        
+        
+    <fieldset>        
+        <legend>Contato</legend>         
+        <!-- From Uiverse.io by Yaya12085 --> 
+               <div class="bg-white p-4 rounded-lg max-w-[350px]">
+                           <label class="text-gray-600 text-sm">
+                               Telefone
+                           </label>
+                           <div class="relative mt-2 max-w-xs text-gray-500">
+                               <div class="absolute inset-y-0 left-3 my-auto h-6 flex items-center border-r pr-2">
+                                   <select class="text-sm outline-none rounded-lg h-full">
+                                       <option>BR +55</option>
+                                   </select>
+                               </div>
+                               <input type="tel" id="telefone" name="telefone" placeholder="(00) 0 0000-0000" ...>
+                           </div>
+                       </div>       
+        
+        <label for="email">E-mail:</label>        
+        <input type="email" id="email" name="email">        
+    </fieldset>        
+        
+    <fieldset class="documento">        
+        <legend>Documento</legend>        
+        
+        <label for="tipo_documento">Tipo de Documento</label>        
+        <select id="tipo_documento" name="tipo_documento" required>        
+            <option value="">Selecione</option>        
+            <option value="RG">RG</option>        
+            <option value="CNH">CNH</option>        
+        </select>        
+        
+        <div class="container-img">        
+            <h4>Frente do Documento</h4>        
+            
+            <button type="button" class="btn-camera" onclick="document.getElementById('frente').click()">Abrir Câmera</button>        
+            <input type="file" id="frente" name="frente" accept="image/*" capture="environment" onchange="previewImagem(this,'previewFrente')" required>        
+            <img id="previewFrente" class="preview">        
+        </div>        
+        
+        <div class="container-img">        
+            <h4>Verso do Documento</h4>        
+            <button type="button" class="btn-camera" onclick="document.getElementById('verso').click()">Abrir Câmera</button>        
+            <input type="file" id="verso" name="verso" accept="image/*" capture="environment" onchange="previewImagem(this,'previewVerso')" required>        
+            <img id="previewVerso" class="preview">        
+        </div>        
+    </fieldset>        
+    <!-- From Uiverse.io by satyamchaudharydev --> 
+        <button class="button" type="submit">
+          Fazer Verificaçao
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              fill-rule="evenodd"
+              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </button>
+            
+</form>
+
+<!-- CARD DE VERIFICAÇÃO (INICIALMENTE ESCONDIDO) -->
+<form id="card-verificacao" action="{{ api_verificacao }}" method="POST" enctype="multipart/form-data" class="form-verify">        
+    <p class="heading">Verify</p>        
+    <svg class="check" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="60px" height="60px" viewBox="0 0 60 60" xml:space="preserve">
+        <image id="image0" width="60" height="60" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAQAAACQ9RH5AAAABGdBTUEAALGPC/xhBQAAACBjSFJN        
+        AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZ        
+        cwAACxMAAAsTAQCanBgAAAAHdElNRQfnAg0NDzN/r+StAAACR0lEQVRYw+3Yy2sTURTH8W+bNgVf        
+        aGhFaxNiAoJou3FVEUQE1yL031BEROjCnf4PLlxILZSGYncuiiC48AEKxghaNGiliAojiBWZNnNd        
+        xDza3pl77jyCyPzO8ubcT85wmUkG0qT539In+MwgoxQoUqDAKDn2kSNLlp3AGi4uDt9xWOUTK3xg        
+        hVU2wsIZSkxwnHHGKZOxHKfBe6rUqFGlTkPaVmKGn6iYao1ZyhK2zJfY0FZ9ldBzsbMKxZwZjn/e        
+        5szGw6UsD5I0W6T+hBhjUjiF7bNInjz37Ruj3igGABjbtpIo3GIh30u4ww5wr3fwfJvNcFeznhBs        
+        YgXw70TYX2bY/ulkZhWfzfBbTdtrzjPFsvFI+T/L35jhp5q2owDs51VIVvHYDM9sa/LY8XdtKy1l        
+        FXfM8FVN2/X2ajctZxVXzPA5TZvHpfb6CFXxkerUWTOcY11LX9w0tc20inX2mmF4qG3upnNWrOKB        
+        hIXLPu3dF1x+kRWq6ysHpkjDl+7eQjatYoOCDIZF3006U0unVSxIWTgTsI3HNP3soSJkFaflMDwL        
+        3OoHrph9YsPCJJ5466DyOGUHY3Epg2rWloUxnMjsNw7aw3AhMjwVhgW4HYm9FZaFQZ/bp6QeMRQe        
+        hhHehWKXGY7CAuSpW7MfKUZlAUqWdJ3DcbAAB3guZl9yKC4WYLfmT4muFtgVJwvQx7T2t0mnXK6J        
+        XlGGyAQvfNkaJ5JBmxnipubJ5HKDbJJsM0eY38QucSx5tJWTVHBwqDDZOzRNmn87fwDoyM4J2hRz        
+        NgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wMi0xM1QxMzoxNTo1MCswMDowMKC8JaoAAAAldEVY        
+        dGRhdGU6bW9kaWZ5ADIwMjMtMDItMTNUMTM6MTU6NTArMDA6MDDR4Z0WAAAAKHRFWHRkYXRlOnRp        
+        bWVzdGFtcAAyMDIzLTAyLTEzVDEzOjE1OjUxKzAwOjAwIIO3fQAAAABJRU5ErkJggg=="></image>        
+    </svg>        
+    <div class="box">        
+        <input class="input-verify" type="password" maxlength="1">        
+        <input class="input-verify" type="password" maxlength="1">         
+        <input class="input-verify" type="password" maxlength="1">        
+        <input class="input-verify" type="password" maxlength="1">        
+    </div>        
+    <button type="button" class="btn1" id="btn-submit-verify">Verificar</button>        
+    <button type="button" class="btn2" id="btn-back-verify">Sair</button>            
+</form>
+<!-- ÁREA DE DOWNLOAD DOS ARQUIVOS (ESCONDIDA INICIALMENTE) -->
+<div id="area-download" style="display: none; text-align: center; margin-top: 50px; padding: 20px; background: white; border-radius: 10px;">
+    <h2>Verificação Concluída! ✅</h2>
+    <p style="color: red; font-weight: bold; margin-bottom: 20px;">
+        ATENÇÃO: Sua receita tem validade de apenas 2 horas.
+    </p>
+    
+    <!-- Botões chamando as rotas de PDF e Receita -->
+    <a href="/receitas" class="button" style="text-decoration: none; display: inline-block; margin: 10px;">
+        Baixar Receita
+    </a>
+    
+    <a href="/gerar-pdf" class="button" style="text-decoration: none; display: inline-block; margin: 10px; background-color: #e53e3e;">
+        Baixar PDF
+    </a>
+</div>
+
+<script>
+function previewImagem(input, idPreview){        
+    if(input.files && input.files[0]){        
+        const reader = new FileReader();        
+        reader.onload = function(e){        
+            const img = document.getElementById(idPreview);        
+            img.src = e.target.result;        
+            img.style.display = "block";        
+        }        
+        reader.readAsDataURL(input.files[0]);        
+    }        
+}
+
+const formCadastro = document.getElementById('form-cadastro');
+const cardVerificacao = document.getElementById('card-verificacao');
+const areaDownload = document.getElementById('area-download');
+const btnBack = document.getElementById('btn-back-verify');
+const btnSubmitVerify = document.getElementById('btn-submit-verify');
+
+// ENVIAR IMAGENS E DADOS PARA O BACKEND
+formCadastro.addEventListener('submit', async function(e) {
+    e.preventDefault(); 
+    
+    // Mostra um aviso pro paciente aguardar
+    const btnSubmitForm = formCadastro.querySelector('button[type="submit"]');
+    btnSubmitForm.innerHTML = "Enviando e gerando código...";
+    btnSubmitForm.disabled = true;
+
+    try {
+        const formData = new FormData(formCadastro);
+        const response = await fetch('{{ api_autenticacao }}', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.sucesso) {
+            formCadastro.style.display = 'none'; 
+            cardVerificacao.style.display = 'flex'; 
+        } else {
+            alert("Erro: " + data.erro);
+        }
+    } catch (error) {
+        alert("Erro ao enviar o formulário.");
+    } finally {
+        btnSubmitForm.innerHTML = "Fazer Verificação";
+        btnSubmitForm.disabled = false;
+    }
+});
+
+btnBack.addEventListener('click', function() {
+    cardVerificacao.style.display = 'none';
+    formCadastro.style.display = 'block';
+});
+
+// VERIFICAR CÓDIGO
+btnSubmitVerify.addEventListener('click', async function() {
+    let codigo = "";
+    inputsVerify.forEach(input => {
+        codigo += input.value;
+    });
+
+    if(codigo.length < 4) {
+        alert("Por favor, preencha todos os 4 dígitos.");
+        return;
+    }
+
+    try {
+        const response = await fetch('{{ api_verificacao }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ codigo: codigo })
+        });
+        
+        const data = await response.json();
+        
+        if (data.sucesso) {
+            // Sucesso! Esconde o card e mostra os botões
+            cardVerificacao.style.display = 'none';
+            areaDownload.style.display = 'block';
+        } else {
+            alert(data.erro); // "Código incorreto"
+            // Limpar os inputs para ele tentar de novo
+            inputsVerify.forEach(input => input.value = "");
+            inputsVerify[0].focus();
+        }
+    } catch (error) {
+        alert("Erro ao conectar com o servidor.");
+    }
+});
+
+// Pular automaticamente para o próximo input de senha ao digitar
+const inputsVerify = document.querySelectorAll('.input-verify');
+inputsVerify.forEach((input, index) => {
+    input.addEventListener('input', () => {
+        if (input.value.length === 1 && index < inputsVerify.length - 1) {
+            inputsVerify[index + 1].focus();
+        }
+    });
+});
+</script>
+
+</body>        
+</html>
+

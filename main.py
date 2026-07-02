@@ -13,6 +13,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.colors import blue
 from fpdf import FPDF
 from fpdf.enums import XPos, YPos
+from flask_mail import Mail, Message
 import cloudinary
 import cloudinary.uploader
 
@@ -35,7 +36,11 @@ cloudinary.config(
 # SETUP BASE
 # =========================
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "")
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+
+BASE_DIR = '/data/data/com.termux/files/home'
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
 
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
@@ -105,6 +110,102 @@ import urllib.request
 from flask import make_response, session
 from fpdf import FPDF
 from datetime import datetime, timedelta
+
+# ENVIAR DOCUMENTOS
+#---------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------
+# Configurações do servidor SMTP do Gmail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+
+# Correção para o Apache/mod_wsgi: Garante que haja um remetente padrão caso o env falhe
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
+
+# Inicializa o Mail após as configurações estarem completamente definidas
+mail = Mail(app)
+
+@app.route("/enviar-imagem", methods=["POST"])
+def enviar_imagem():
+    dados_paciente = {
+        "nome": request.form.get("nome"),
+        "nascimento": request.form.get("nascimento"),
+        "telefone": request.form.get("telefone"),
+        "email": request.form.get("email"),
+        "tipo_documento": request.form.get("tipo_documento"),
+    }
+
+    # SALVANDO NA SESSÃO PARA USAR NO PDF E NA RECEITA DEPOIS
+    session['dados_paciente'] = dados_paciente
+
+    if "frente" not in request.files or "verso" not in request.files:
+        return jsonify({"erro": "Ambos os lados do documento são obrigatórios"}), 400
+
+    arquivo_frente = request.files["frente"]
+    arquivo_verso = request.files["verso"]
+
+    if arquivo_frente.filename == "" or arquivo_verso.filename == "":
+        return jsonify({"erro": "Por favor, capture a frente e o verso"}), 400
+
+    try:
+        # 1. FAZ O UPLOAD (Se der erro aqui, suas chaves do Cloudinary estão erradas no .env)
+        upload_frente = cloudinary.uploader.upload(arquivo_frente, tags=["documento_frente", dados_paciente["nome"]])
+        upload_verso = cloudinary.uploader.upload(arquivo_verso, tags=["documento_verso", dados_paciente["nome"]])
+
+        # 2. GERA O CÓDIGO E SALVA NA SESSÃO
+        codigo_verificacao = str(random.randint(1000, 9999))
+        session['codigo_verificacao'] = codigo_verificacao
+
+        # 3. TENTA ENVIAR O EMAIL COM SISTEMA ANTI-FALHA
+        if dados_paciente["email"]:
+            try:
+                msg = Message(
+                    "Seu Código de Verificação - Clínica",
+                    recipients=[dados_paciente["email"]]
+                )
+                msg.body = f"Olá {dados_paciente['nome']},\n\nSeu código de verificação é: {codigo_verificacao}"
+                mail.send(msg)
+                print(f"Email enviado com sucesso para {dados_paciente['email']}")
+            except Exception as erro_email:
+                # SE O GOOGLE BLOQUEAR, O SERVIDOR NÃO CAI MAIS.
+                print("\n=======================================================")
+                print("[FALHA NO EMAIL] O Google bloqueou o envio. Você precisa criar uma 'Senha de Aplicativo' no Gmail.")
+                print(f"[CÓDIGO SALVO] Use este código na tela para passar: {codigo_verificacao}")
+                print("=======================================================\n")
+
+        return jsonify({
+            "sucesso": True,
+            "mensagem": "Arquivos processados."
+        }), 200
+
+    except Exception as e:
+        # Se cair aqui, o erro foi no Cloudinary.
+        print(f"ERRO FATAL (Cloudinary): {str(e)}")
+        return jsonify({"erro": f"Erro no servidor: {str(e)}"}), 500
+#---------------------------------------------------------------------------
+#---------------------------------------------------------------------------
+#---------------------------------------------------------------------------
+#---------------------------------------------------------------------------
+# VERIFICAR O CÓDIGO
+@app.route("/verificar-codigo", methods=["POST"])
+def verificar_codigo():
+    dados = request.get_json()
+    codigo_digitado = dados.get("codigo")
+    codigo_real = session.get("codigo_verificacao")
+
+    if not codigo_digitado or not codigo_real:
+        return jsonify({"sucesso": False, "erro": "Código não encontrado"}), 400
+
+    if codigo_digitado == codigo_real:
+        return jsonify({"sucesso": True, "mensagem": "Código verificado com sucesso!"})
+    else:
+        return jsonify({"sucesso": False, "erro": "Código incorreto"}), 400
+#---------------------------------------------------------------------------
+
 
 @app.route('/gerar-pdf')
 def gerar_pdf():
@@ -226,10 +327,11 @@ def gerar_pdf():
     
     return response
 
+application = app
 
         
 # =========================
 # RUN (LOCAL ONLY)
 # =========================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))

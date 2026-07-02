@@ -7,3 +7,4 @@ qrcode
 reportlab
 Pillow
 cloudinary
+fpdf2

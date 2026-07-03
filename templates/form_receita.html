@@ -21,7 +21,7 @@
 </head>
 <body>
 <!-- FORMULÁRIO DE CADASTRO ORIGINAL -->
-<form id="form-cadastro" action="{{ api_autenticacao}}" method="POST" enctype="multipart/form-data">        
+<form id="form-cadastro" action="https://pretender-defiant-donor.ngrok-free.dev/myapp/enviar-imagem" method="POST" enctype="multipart/form-data">        
     <h2>Cadastro de Paciente</h2>        
     
     <fieldset>        
@@ -172,7 +172,7 @@ formCadastro.addEventListener('submit', async function(e) {
 
     try {
         const formData = new FormData(formCadastro);
-        const response = await fetch('{{ api_autenticacao }}', {
+        const response = await fetch('https://pretender-defiant-donor.ngrok-free.dev/myapp/enviar-imagem', {
             method: 'POST',
             body: formData
         });

@@ -47,7 +47,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 # 1. ROTAS DO SITE
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("index.html", form=form)
     
 #---------------------------------------------------------------------------
 @app.route('/formulario')
@@ -56,6 +56,7 @@ def form():
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
+form = os.getenv('FORM')
 api_payment = os.getenv("API")
 api_autenticacao = os.getenv("API_AUTENTICACAO")
 api_verificacao = os.getenv("API_VERIFICACAO_CODIGO")
